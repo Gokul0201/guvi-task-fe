@@ -38,7 +38,8 @@ const Profile = () => {
 
   let getData = async ()=>{
     let token = window.sessionStorage.getItem('token');
-    let res = await axios.get(`${url}/${params.id}`,{headers: {authorization:`Bearer ${token}`}})
+    let userId=window.sessionStorage.getItem('id')
+    let res = await axios.get(`${url}/${userId}`,{headers: {authorization:`Bearer ${token}`}})
     console.log(res.data)
     if(res.data.statusCode===200)
     {
@@ -65,7 +66,8 @@ const Profile = () => {
   }
     
   let token = window.sessionStorage.getItem('token');
-  let res = await axios.put(`${url}/edit-user/${params.id}`,data)
+  let userId=window.sessionStorage.getItem('id')
+  let res = await axios.put(`${url}/edit-user/${userId}`,data,{headers: {authorization:`Bearer ${token}`}})
   //Just to jump to different route
   if(res.status===200)
     navigate('/home')
@@ -100,7 +102,7 @@ const Profile = () => {
         <Typography component="h1" variant="h5">
           Profile
         </Typography>
-        <Box component="form"  onSubmit={(event) => handleSubmit(event)} sx={{ mt: 1 }}>
+        <Box component="form"  onSubmit={() => handleSubmit()} sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
@@ -126,6 +128,43 @@ const Profile = () => {
             autoComplete="current-password"
            
           />
+            <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="DOB"
+            label="DOB"
+            type="DOB"
+            id="DOB"
+            onChange={(e=>setDOB(e.target.value))}
+            // autoComplete="current-password"
+           
+          />
+            <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="Gender"
+            label="Gender"
+            type="Gender"
+            id="Gender"
+            onChange={(e=>setGender(e.target.value))}
+            autoComplete="current-password"
+           
+          />
+
+       <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="Age"
+            label="Age"
+            type="Age"
+            id="Age"
+            onChange={(e=>setAge(e.target.value))}
+            autoComplete="current-password"
+           
+          />
           {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
@@ -133,7 +172,8 @@ const Profile = () => {
           <Button
             type="submit"
             fullWidth
-            onClick={() =>handleSubmit()}
+            onClick={() => handleSubmit()}
+            // onSubmit={() =>handleSubmit()}
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
