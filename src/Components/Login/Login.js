@@ -48,7 +48,7 @@ const Login = () => {
                 if(login.data.message === "User Logged in Successfully"){
                 toast.success(login.data.message)
                 setTimeout(() => {
-                    navigate("/home")
+                    navigate("/profile")
                 }, 3000)
             }
             else{

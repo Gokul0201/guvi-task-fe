@@ -17,7 +17,8 @@ const Register = () => {
         initialValues: {
             email: '',
             username: '',
-            password: ''
+            password: '',
+           
         },
 
         validate: (values) => {
@@ -45,7 +46,7 @@ const Register = () => {
                 resetForm({ values: '' })
                 toast.success(postData.data.message)
                 setTimeout(() => {
-                    navigate("/login")
+                    navigate("/")
                 }, 3000)
             } catch (error) {
                 alert('Register Error!')

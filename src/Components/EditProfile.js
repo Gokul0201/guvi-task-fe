@@ -9,9 +9,11 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import EmailIcon from '@mui/icons-material/Email';
+// import EmailIcon from '@mui/icons-material/Email';
+import PersonSharpIcon from '@mui/icons-material/PersonSharp';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {url} from '../App'
 
@@ -32,6 +34,7 @@ const Profile = () => {
   let[age,setAge]=useState("");
   let[mobile,setMobile]=useState("");
   let [email,setEmail]=useState("");
+  let[username,setuserName]=useState("");
   useEffect(() => {
     getData()
   }, [])
@@ -43,7 +46,12 @@ const Profile = () => {
     console.log(res.data)
     if(res.data.statusCode===200)
     {
+      setuserName(res.data.users.username)
       setEmail(res.data.users.email)
+      setMobile(res.data.users.mobile)
+      setDOB(res.data.users.DOB)
+      setGender(res.data.users.gender)
+      setAge(res.data.users.age)
     }
     else if(res.data.statusCode===401)
     {
@@ -56,9 +64,16 @@ const Profile = () => {
     }
   }
 
+  let handleLogout = () => {
+    window.sessionStorage.removeItem('token')
+    window.sessionStorage.removeItem('id')
+    navigate('/')
+  }
+
   let handleSubmit=async ()=>{
     let data={
     email,
+    username,
     mobile,
     DOB,
     gender,
@@ -69,17 +84,17 @@ const Profile = () => {
   let userId=window.sessionStorage.getItem('id')
   let res = await axios.put(`${url}/edit-user/${userId}`,data,{headers: {authorization:`Bearer ${token}`}})
   //Just to jump to different route
-  if(res.status===200)
-    navigate('/home')
-    else if(res.data.statusCode===401)
-    {
-      alert(res.data.message)
+  // if(res.status===200)
+    navigate('/profile')
+    // else if(res.data.statusCode===401)
+    // {
+    //   alert(res.data.message)
       
-    }
-    else
-    {
-      alert(res.data.message)
-    }
+    // }
+    // else
+    // {
+    //   alert(res.data.message)
+    // }
 }
  
   return (
@@ -87,6 +102,20 @@ const Profile = () => {
     <ThemeProvider theme={theme}>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
+      
+      <Box
+        sx={{
+          marginTop:5,
+          paddingLeft:90
+        }}>
+      <Button 
+      variant="contained" 
+      size="small"
+      onClick={()=>(navigate('/profile'))}
+        >
+          Back
+        </Button>
+        </Box>
       <Box
         sx={{
           marginTop: 8,
@@ -95,14 +124,26 @@ const Profile = () => {
           alignItems: 'center',
         }}
       >
+         
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           
-          <EmailIcon />
+          <PersonSharpIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Profile
         </Typography>
         <Box component="form"  onSubmit={() => handleSubmit()} sx={{ mt: 1 }}>
+        <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="name"
+            label="Name"
+            value={username}
+            name="Name"
+            autoComplete="Name"
+            onChange={(e=>setuserName(e.target.value))} 
+          />
           <TextField
             margin="normal"
             required
@@ -122,6 +163,7 @@ const Profile = () => {
             fullWidth
             name="Mobile"
             label="Mobile"
+            value={mobile}
             type="Mobile"
             id="Mobile"
             onChange={(e=>setMobile(e.target.value))}
@@ -133,6 +175,7 @@ const Profile = () => {
             required
             fullWidth
             name="DOB"
+            value={DOB}
             label="DOB"
             type="DOB"
             id="DOB"
@@ -147,6 +190,7 @@ const Profile = () => {
             name="Gender"
             label="Gender"
             type="Gender"
+            value={gender}
             id="Gender"
             onChange={(e=>setGender(e.target.value))}
             autoComplete="current-password"
@@ -159,6 +203,7 @@ const Profile = () => {
             fullWidth
             name="Age"
             label="Age"
+            value={age}
             type="Age"
             id="Age"
             onChange={(e=>setAge(e.target.value))}

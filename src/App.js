@@ -1,5 +1,6 @@
 import './App.css';
-import Profile from './Components/Profile';
+import Profile from './Components/EditProfile';
+import ProfilePage from './Components/ProfilePage';
 import Login from './Components/Login/Login';
 import Register from './Components/Register/Register';
 import { BrowserRouter,Route,Routes} from 'react-router-dom';
@@ -13,6 +14,7 @@ function App() {
          <Route path='/' element={<Login/>}/>
          <Route path='/register' element={<Register/>}/>
          <Route path='/home' element={<Profile/>}/>
+         <Route path='/profile' element={<ProfilePage/>}/>
          <Route path='*' element={<Login/>}/>
        </Routes>
       </BrowserRouter>
