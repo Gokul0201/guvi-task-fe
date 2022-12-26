@@ -84,17 +84,9 @@ const Profile = () => {
   let userId=window.sessionStorage.getItem('id')
   let res = await axios.put(`${url}/edit-user/${userId}`,data,{headers: {authorization:`Bearer ${token}`}})
   //Just to jump to different route
-  // if(res.status===200)
+ 
     navigate('/profile')
-    // else if(res.data.statusCode===401)
-    // {
-    //   alert(res.data.message)
-      
-    // }
-    // else
-    // {
-    //   alert(res.data.message)
-    // }
+ 
 }
  
   return (
@@ -132,7 +124,7 @@ const Profile = () => {
         <Typography component="h1" variant="h5">
           Profile
         </Typography>
-        <Box component="form"  onSubmit={() => handleSubmit()} sx={{ mt: 1 }}>
+        <Box component="form" onClick={()=>handleSubmit} sx={{ mt: 1 }}>
         <TextField
             margin="normal"
             required
@@ -217,7 +209,7 @@ const Profile = () => {
           <Button
             type="submit"
             fullWidth
-            onClick={() => handleSubmit()}
+            onClick={handleSubmit}
             // onSubmit={() =>handleSubmit()}
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
